@@ -29,6 +29,10 @@ public class Calculadora {
 		return res;
 
 	}
+	
+	public static double dividir(double n1, double n2) {
+		return n1/n2;
+	}
 		
 	
 
