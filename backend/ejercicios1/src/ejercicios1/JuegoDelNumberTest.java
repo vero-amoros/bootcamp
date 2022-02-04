@@ -69,31 +69,36 @@ class JuegoDelNumberTest {
 		}
 		@Test
 		void test_acabado() throws JuegoException {
-			juego.intentos=10;
+			for(int i=0; i<=9;i++) {
+				juego.jugada(20); 
+			}
 			assertAll("Jugada", 
-					()-> assertEquals(10, juego.getJugada()),
-					()->assertEquals("El juego ha finalizado", juego.getResultado()));
+					()-> assertEquals("Upsss! Se acabaron los intentos, el número era el " + juego.numeroBuscado, juego.getResultado()),
+					()-> assertEquals(10, juego.getJugada())
+					);
 		}
 		
 		//Prueba si se pasa con los intentos
 		@Test
 		void excepcionJugadas() throws JuegoException {
 			
-			for(int i=0; i<=11;) {
+			for(int i=0; i<=9;i++) {
 				juego.jugada(20); 
-				i++;
 			}
-			Assertions.assertThrows(JuegoException.class,()-> assertTrue(juego.getFinalizado()));
+			assertTrue(juego.getFinalizado());
+			Assertions.assertThrows(JuegoException.class,()-> juego.jugada(20));
 		}
 		
 		//Prueba si ya lo ha encontrado
 		@Test
 		void excepcionJugadas2() throws JuegoException {
 			juego.jugada(50);
-			juego.jugada(20);
-			
-			Assertions.assertThrows(JuegoException.class,()-> assertTrue(juego.getFinalizado()));
+
+			assertTrue(juego.getFinalizado());
+			assertThrows(JuegoException.class,()-> juego.jugada(50));
 		}
+		
+		
 		
 		/*
 		@ParameterizedTest
