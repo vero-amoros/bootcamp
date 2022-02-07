@@ -56,8 +56,6 @@ public class JuegoDelNumber implements Juego<String> {
         	resultado = "Mi número es menor.";
         }
 	}
-	
-
 
 	/**
 	 * Cadena con el mensaje de la ultima jugada

@@ -19,6 +19,10 @@ public class Decodificar {
 
 		}
 		System.out.println("resultado" + resultado);
+		
+		//PRUEBA
+		
+		System.out.println("----DIVIDIR " + c.dividir(6, 0));
 
 	}
 

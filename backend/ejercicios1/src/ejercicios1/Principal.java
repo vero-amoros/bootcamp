@@ -1,12 +1,22 @@
 package ejercicios1;
 
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Principal { 
+public class Principal {
 
 	public static void main(String[] args) {
-		ejercicio2();
+		Baraja deck = new BarajaEspañola48();
+		ArrayList<Carta> dadas = new ArrayList<>();
+		deck.barajar();
+		deck.pintar();
+		System.out.println("------");
+		dadas = deck.repartir();
+		for (int i = 0; i < dadas.size(); i++) {
+			System.out.println(dadas.get(i).getValor() + " " + dadas.get(i).getNumero());
+		}
+		System.out.println("------");
+		deck.pintar();
 
 	}
 
