@@ -1,22 +1,35 @@
 package ejercicios1;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
 
 	public static void main(String[] args) {
-		Baraja deck = new BarajaEspañola48();
-		ArrayList<Carta> dadas = new ArrayList<>();
+		Baraja deck = new BarajaFrancesa();
+		List<Carta> jugador1 = new ArrayList<>();
+		List<Carta> jugador2 = new ArrayList<>();
 		deck.barajar();
-		deck.pintar();
-		System.out.println("------");
-		dadas = deck.repartir();
-		for (int i = 0; i < dadas.size(); i++) {
-			System.out.println(dadas.get(i).getValor() + " " + dadas.get(i).getNumero());
+		//deck.pintar();
+		System.out.println("---JUGADOR 1---");
+		jugador1 = deck.repartir();
+		jugador2 = deck.repartir();
+		for (int i = 0; i < jugador1.size(); i++) {
+			System.out.println(jugador1.get(i).getNumero() + " de " + jugador1.get(i).getValor());
 		}
+		System.out.println("---JUGADOR 2---");
+		for (int i = 0; i < jugador2.size(); i++) {
+			System.out.println(jugador2.get(i).getNumero() + " de " + jugador2.get(i).getValor());
+		}
+		//PINTA TODA LA BARAJA
+		/*
+		for (int i = 0; i < deck.getBaraja().size(); i++) {
+			System.out.println(deck.getBaraja().get(i).getNumero() + " de " + deck.getBaraja().get(i).getValor() );
+		}*/
 		System.out.println("------");
-		deck.pintar();
+		//deck.pintar();
+		
 
 	}
 

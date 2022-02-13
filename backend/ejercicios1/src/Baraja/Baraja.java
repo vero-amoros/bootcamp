@@ -1,4 +1,4 @@
-package ejercicios1;
+package Baraja;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +34,5 @@ public abstract class Baraja {
 		return repartidas;
 	}
 	
-	public 
 
 }

@@ -11,7 +11,10 @@ public class Decodificar {
 	public static final int CONSTANTE = 1;
 
 	public static void main(String[] args) throws IOException {
-		String[] cadena = decodifica();
+		String[] cadena = leer();
+		for (int i = 0; i < cadena.length; i++) {
+			System.out.println("entro en cadena " + cadena[i]);
+		}
 
 		Calculadora c = new Calculadora();
 		double resultado = 0;
@@ -46,30 +49,10 @@ public class Decodificar {
 
 	}
 
-	public static String[] decodifica() throws IOException {
-		File fichero = new File("C://eclipse-jee-2021-12-R-win32-x86_64/Entrada.txt");
-		Scanner sc = null;
-		String str = "";
-		
-		try {
-			System.out.println("Leemos el fichero");
-			sc = new Scanner(fichero);
-
-			while (sc.hasNextLine()) {
-				str = sc.nextLine(); 
-				System.out.println(str);
-			}
-		} catch (Exception ex) {
-			System.out.println("Excepción: " + ex.getMessage());
-		} finally {
-			try {
-				if (sc != null)
-					sc.close();
-			} catch (Exception ex2) {
-				System.out.println("Excepción2: " + ex2.getMessage());
-			}
-		}
-
+	public static String[] decodifica(String cadena){ // a esto no le llegaba nada por parametro
+	
+		String str = cadena;
+		System.out.println(str);
 		str = str.replace(",", ".");
 
 		String str2 = str.replaceAll("\\+", " \\+");
@@ -87,6 +70,36 @@ public class Decodificar {
 		}
 		return parts;
 
+	}
+	
+	public static String[] leer() throws IOException {
+		File fichero = new File("C://Repositorio/backend/ejercicios1/Entrada.txt");
+		Scanner sc = null;
+		String str = "";
+		String[] salida = null ;
+		try {
+			System.out.println("Leemos el fichero");
+			sc = new Scanner(fichero);
+
+			while (sc.hasNextLine()) {
+				str = sc.nextLine(); 
+				System.out.println(str);
+			    salida = decodifica(str);
+			    for (int i = 0; i < salida.length; i++) {
+					System.out.println("la salida " + salida[i]);
+				}
+			}
+		} catch (Exception ex) {
+			System.out.println("Excepción: " + ex.getMessage());
+		} finally {
+			try {
+				if (sc != null)
+					sc.close();
+			} catch (Exception ex2) {
+				System.out.println("Excepción2: " + ex2.getMessage());
+			}
+		}
+		return salida;
 	}
 
 }

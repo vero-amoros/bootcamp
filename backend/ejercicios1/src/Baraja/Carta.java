@@ -1,4 +1,6 @@
-package ejercicios1;
+package Baraja;
+
+import Baraja.ValorCarta;
 
 public abstract class Carta<E> {
 	protected int numero;

@@ -1,8 +1,8 @@
-package ejercicios1;
+package Baraja;
 
 import java.util.Stack;
 
-import ejercicios1.CartaEspañola.Palos;
+import Baraja.CartaEspañola.Palos;
 
 public class BarajaEspañola48 extends Baraja {
 
