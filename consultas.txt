@@ -6,3 +6,6 @@ SELECT DISTINCT district FROM address ORDER BY district ASC
 
 ----EJERCICIO 3
 SELECT * FROM film f WHERE f.description LIKE "%Secret Agent%"
+
+----EJERCICIO 4
+SELECT title, rental_rate/LENGTH AS precioPorMinuto  FROM film f ORDER BY precioPorMinuto DESC
