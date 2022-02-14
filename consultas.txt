@@ -1,0 +1,8 @@
+----EJERCICIO 1
+SELECT * FROM actor WHERE actor.first_name LIKE "Nick"
+
+----EJERCICIO 2
+SELECT DISTINCT district FROM address ORDER BY district ASC
+
+----EJERCICIO 3
+SELECT * FROM film f WHERE f.description LIKE "%Secret Agent%"
