@@ -9,3 +9,17 @@ SELECT * FROM film f WHERE f.description LIKE "%Secret Agent%"
 
 ----EJERCICIO 4
 SELECT title, rental_rate/LENGTH AS precioPorMinuto  FROM film f ORDER BY precioPorMinuto DESC
+
+----EJERCICIO 5
+SELECT customer_id, AVG(amount) FROM payment p GROUP BY customer_id HAVING SUM(p.amount)>100 AND COUNT(customer_id)<25
+
+----EJERCICIO 6
+SELECT first_name, count(first_name) as total FROM actor GROUP BY first_name ORDER BY total DESC LIMIT 5
+
+----EJERCICIO 7
+SELECT postal_code, co.country
+FROM address a, city c, customer cu, country co
+WHERE a.city_id = c.city_id 
+AND a.address_id = cu.address_id
+AND co.country_id = c.country_id 
+HAVING co.country = 'CHINA' OR co.country = 'TAIWAN'
