@@ -64,7 +64,6 @@ ORDER BY tiempoAlquilado DESC, cu.first_name
 -- Elaborar el ranking de los países que más alquilan las películas de GINA DEGENERES.
 SELECT RANK () over(ORDER BY COUNT(r.rental_id)  DESC) AS Ranking, ac.actor_id, ac.first_name, ac.last_name, co.country 'País', 
 COUNT(r.rental_id) 'Número de alquileres'
-
 FROM rental r
 INNER JOIN inventory i ON r.inventory_id = i.inventory_id
 INNER JOIN film f ON f.film_id = i.film_id
