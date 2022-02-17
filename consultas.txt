@@ -46,6 +46,19 @@ INNER JOIN staff st ON st.staff_id = r.staff_id
 INNER JOIN address a ON a.address_id = cu.address_id
 INNER JOIN city c ON c.city_id = a.city_id
 INNER JOIN country co ON co.country_id = c.country_id;
+
 ----Generar la lista diaria de alquileres vencidos no devueltos para poder llamar a los clientes y pedirles que los devuelvan, para ello debe mostrar las fechas de alquiler y vencimiento, el teléfono y nombre del cliente, así como el titulo de la película, priorizando los que mas tiempo llevan vencidos.
+SELECT r.rental_id 'Alquiler ID', r.rental_date 'Fecha de alquiler', r.return_date 'Fecha de devolución', CONCAT(cu.first_name, " ", cu.last_name) 'Cliente', a.phone 'Teléfono', f.title 'Título', DATEDIFF(CURRENT_DATE, r.rental_date) AS tiempoAlquilado
+FROM rental r
+INNER JOIN staff st ON r.staff_id = st.staff_id 
+INNER JOIN address a ON a.address_id = st.address_id
+INNER JOIN city c ON c.city_id = a.city_id
+INNER JOIN country co ON c.country_id = co.country_id
+INNER JOIN inventory i ON i.inventory_id = r.inventory_id
+INNER JOIN film f ON f.film_id = i.film_id
+INNER JOIN customer cu ON cu.customer_id = r.customer_id
+GROUP BY r.rental_id
+HAVING r.return_date IS NULL 
+ORDER BY tiempoAlquilado DESC, cu.first_name 
 
 ----Elaborar el ranking de los países que más alquilan las películas de GINA DEGENERES.	
