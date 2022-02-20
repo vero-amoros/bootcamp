@@ -3,33 +3,30 @@ package ajedrez;
 public class Tablero {
 	private Pieza[][] piezas = new Pieza[8][8];
 
-	public Pieza getEscaque(int columna, int fila) {
-		return piezas[columna][fila];
+	public Pieza getEscaque(int columna, int fila) throws JuegoException {
+		Posicion pos = new Posicion(columna, fila);
+		return getEscaque(pos);
 	}
 
-	public Pieza getEscaque(Posicion pos) {
-		return piezas[pos.getColumna()][pos.getFila()];
+	public Pieza getEscaque(Posicion pos) throws JuegoException {
+		if (pos == null)
+			throw new IllegalArgumentException("No hay pieza o es null");
+		if (!hayPieza(pos))
+			throw new JuegoException("No hay pieza");
+
+		return piezas[pos.getColumna() - 1][pos.getFila() - 1];
 	}
 
 	public void setEscaque(int columna, int fila, Pieza pieza) throws JuegoException {
 		if (pieza == null)
 			throw new JuegoException("La pieza no puede ser null");
 
-		if (hayPieza(columna, fila)) {
-			if (getEscaque(columna, fila).getColor() != pieza.getColor()) {
-				quitaPieza(columna, fila);
-				piezas[columna][fila] = pieza;
-			} else {
-				throw new JuegoException("Ya hay una pieza del mismo color en esa posición");
-			}
-		} else {
-			piezas[columna][fila] = pieza;
-		}
+		piezas[columna - 1][fila - 1] = pieza;
 	}
 
 	public void setEscaque(Posicion pos, Pieza pieza) throws JuegoException {
-		if (pieza == null)
-			throw new JuegoException("La pieza no puede ser null");
+		if (pieza == null || pos == null)
+			throw new JuegoException("La pieza o la posición no pueden ser null");
 
 		setEscaque(pos.getColumna(), pos.getFila(), pieza);
 	}
@@ -39,21 +36,31 @@ public class Tablero {
 	}
 
 	public boolean hayPieza(int columna, int fila) throws JuegoException {
-		return hayPieza(new Posicion(columna, fila));
+		if (!esValido(columna) || !esValido(fila))
+			throw new IllegalArgumentException("La columna y la fila deben estar entre 1 y 8");
+		return (piezas[columna][fila] != null);
 	}
 
-	public boolean hayPieza(Posicion pos) {
-		return piezas[pos.getColumna()][pos.getFila()] != null;
+	public boolean hayPieza(Posicion pos) throws JuegoException {
+		if (pos == null)
+			throw new IllegalArgumentException("La posición es null");
+		return hayPieza(pos.getColumna(), pos.getFila());
+
 	}
 
-	public void quitaPieza(int columna, int fila) {
-		if (esValido(columna) && esValido(fila))
-			piezas[columna][fila] = null;
+	public void quitaPieza(int columna, int fila) throws JuegoException {
+		if (!esValido(columna) || !esValido(fila))
+			throw new IllegalArgumentException("La columna y la fila deben estar entre 1 y 8");
+		if (!hayPieza(columna, fila))
+			throw new JuegoException("La casilla ya estaba vacía");
+
+		piezas[columna - 1][fila - 1] = null;
 	}
 
-	public void quitaPieza(Posicion pos) { // comprobar con esValido
-		if (esValido(pos.getColumna()) && esValido(pos.getFila()))
-			piezas[pos.getColumna()][pos.getFila()] = null;
+	public void quitaPieza(Posicion pos) throws JuegoException {
+		if (pos == null)
+			throw new IllegalArgumentException("La posición es null");
+		quitaPieza(pos.getColumna(), pos.getFila());
 	}
 
 	public void mover(Movimiento mov) throws JuegoException {
@@ -71,10 +78,16 @@ public class Tablero {
 		if (!esValido(columna) && !esValido(fila)) {
 			throw new JuegoException("La columna y la fila deben estar entre 1 y 8");
 		}
-		return piezas[columna][fila].getColor();
+		if ((fila % 2) == (columna % 2)) {
+			return Color.BLANCO;
+		} else {
+			return Color.NEGRO;
+		}
 	}
 
 	public boolean hayPiezasEntre(Movimiento mov) throws JuegoException {
+		if (mov == null)
+			throw new JuegoException("El movimiento no puede ser null");
 		if (!mov.esVertical() && !mov.esHorizontal() && !mov.esDiagonal()) {
 			throw new JuegoException("El movimiento debe ser vertical, horizontal o diagonal.");
 		}
@@ -93,7 +106,18 @@ public class Tablero {
 
 	}
 
-	public Object Clone() {
-		return piezas.clone(); // clone o copy?
+	public Tablero Clone() {
+		Tablero copia = new Tablero();
+		Pieza[][] copiaPiezas = new Pieza[8][8];
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (piezas[i][j] != null)
+					copiaPiezas[i][j] = piezas[i][j];
+			}
+		}
+		copia.piezas = copiaPiezas;
+		return copia;
+
 	}
 }

@@ -16,7 +16,7 @@ public abstract class Pieza {
 	protected abstract boolean esValido(Movimiento mov, Tablero tab) throws JuegoException;
 
 	public Color getColor() {
-		return this.elColor;
+		return elColor;
 	}
 
 }

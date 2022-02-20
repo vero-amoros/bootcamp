@@ -71,15 +71,14 @@ public class Movimiento {
 	 *         arriba, -1 si es hacia abajo y 0 si es igual
 	 */
 	public int deltaFila() {
-		int delta;
 		if (posFin.getFila() > posIni.getFila()) {
-			delta = 1;
+			return 1;
 		} else if (posFin.getFila() < posIni.getFila()) {
-			delta = -1;
+			return -1;
 		} else {
-			delta = 0;
+			return 0;
 		}
-		return delta;
+
 	}
 
 	/**
@@ -88,15 +87,13 @@ public class Movimiento {
 	 *         la derecha, -1 si es hacia la izquierda y 0 si es igual
 	 */
 	public int deltaColumna() {
-		int delta = 0;
 		if (posFin.getColumna() > posIni.getColumna()) {
-			delta = 1;
+			return 1;
 		} else if (posFin.getColumna() < posIni.getColumna()) {
-			delta = -1;
+			return -1;
 		} else {
-			delta = 0;
+			return 0;
 		}
-		return delta;
 	}
 
 	/**
