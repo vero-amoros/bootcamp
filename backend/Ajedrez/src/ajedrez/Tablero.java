@@ -13,7 +13,7 @@ public class Tablero {
 			throw new IllegalArgumentException("No hay pieza o es null");
 		if (!hayPieza(pos))
 			throw new JuegoException("No hay pieza");
-
+//hola
 		return piezas[pos.getColumna() - 1][pos.getFila() - 1];
 	}
 
