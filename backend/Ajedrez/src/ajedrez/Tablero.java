@@ -16,7 +16,7 @@ public class Tablero {
 
 		return piezas[pos.getColumna() - 1][pos.getFila() - 1];
 	}
-
+//
 	public void setEscaque(int columna, int fila, Pieza pieza) throws JuegoException {
 		if (pieza == null)
 			throw new JuegoException("La pieza no puede ser null");
