@@ -1,7 +1,16 @@
-package com.example.domains.entities;
+package domains.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.validator.constraints.Length;
+
+import com.example.domains.entities.FilmActor;
+import com.example.domains.entities.Inventory;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -27,6 +36,7 @@ public class Film implements Serializable {
 	private String description;
 
 	@Column(name="last_update")
+	@Generated(value = GenerationTime.ALWAYS)
 	private Timestamp lastUpdate;
 
 	private int length;
@@ -45,6 +55,8 @@ public class Film implements Serializable {
 	@Column(name="replacement_cost")
 	private BigDecimal replacementCost;
 
+	@NotBlank
+	@Length(max=128)
 	private String title;
 
 	//bi-directional many-to-one association to Language
@@ -252,5 +264,13 @@ public class Film implements Serializable {
 			return false;
 		return filmId == ((Film) obj).filmId;
 	}
+
+	@Override
+	public String toString() {
+		return "Film [filmId=" + filmId + ", lastUpdate=" + lastUpdate + ", title=" + title + "]";
+	}
+	
+
+
 
 }

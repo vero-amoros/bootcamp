@@ -2,71 +2,81 @@ package com.example.domains.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.validator.constraints.Length;
+
+import com.example.domains.core.entities.EntityBase;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
-
 
 /**
  * The persistent class for the film database table.
  * 
  */
 @Entity
-@Table(name="film")
-@NamedQuery(name="Film.findAll", query="SELECT f FROM Film f")
-public class Film implements Serializable {
+@Table(name = "film")
+@NamedQuery(name = "Film.findAll", query = "SELECT f FROM Film f")
+public class Film extends EntityBase<Film> implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="film_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "film_id")
 	private int filmId;
 
 	@Lob
 	private String description;
 
-	@Column(name="last_update")
+	@Column(name = "last_update")
+	@Generated(value = GenerationTime.ALWAYS)
 	private Timestamp lastUpdate;
 
 	private int length;
 
 	private String rating;
 
-	@Column(name="release_year")
+	@Column(name = "release_year")
 	private short releaseYear;
 
-	@Column(name="rental_duration")
+	@Column(name = "rental_duration")
 	private byte rentalDuration;
 
-	@Column(name="rental_rate")
+	@Column(name = "rental_rate")
 	private BigDecimal rentalRate;
 
-	@Column(name="replacement_cost")
+	@Column(name = "replacement_cost")
 	private BigDecimal replacementCost;
 
+	@NotBlank
+	@Length(max = 128)
 	private String title;
 
-	//bi-directional many-to-one association to Language
+	// bi-directional many-to-one association to Language
 	@ManyToOne
-	@JoinColumn(name="language_id")
+	@JoinColumn(name = "language_id")
 	private Language language;
 
-	//bi-directional many-to-one association to Language
+	// bi-directional many-to-one association to Language
 	@ManyToOne
-	@JoinColumn(name="original_language_id")
+	@JoinColumn(name = "original_language_id")
 	private Language languageVO;
 
-	//bi-directional many-to-one association to FilmActor
-	@OneToMany(mappedBy="film")
+	// bi-directional many-to-one association to FilmActor
+	@OneToMany(mappedBy = "film")
 	private List<FilmActor> filmActors;
 
-	//bi-directional many-to-one association to FilmCategory
-	@OneToMany(mappedBy="film")
+	// bi-directional many-to-one association to FilmCategory
+	@OneToMany(mappedBy = "film")
 	private List<FilmCategory> filmCategories;
 
-	//bi-directional many-to-one association to Inventory
-	@OneToMany(mappedBy="film")
+	// bi-directional many-to-one association to Inventory
+	@OneToMany(mappedBy = "film")
 	private List<Inventory> inventories;
 
 	public Film() {
@@ -75,6 +85,23 @@ public class Film implements Serializable {
 	public Film(int filmId) {
 		super();
 		this.filmId = filmId;
+	}
+
+	public Film(int filmId, String description, int length, String rating, short releaseYear, byte rentalDuration,
+			BigDecimal rentalRate, BigDecimal replacementCost, @NotBlank @Length(max = 128) String title,
+			Language language, Language languageVO) {
+		super();
+		this.filmId = filmId;
+		this.description = description;
+		this.length = length;
+		this.rating = rating;
+		this.releaseYear = releaseYear;
+		this.rentalDuration = rentalDuration;
+		this.rentalRate = rentalRate;
+		this.replacementCost = replacementCost;
+		this.title = title;
+		this.language = language;
+		this.languageVO = languageVO;
 	}
 
 	public int getFilmId() {
@@ -251,6 +278,11 @@ public class Film implements Serializable {
 		if (!(obj instanceof Film))
 			return false;
 		return filmId == ((Film) obj).filmId;
+	}
+
+	@Override
+	public String toString() {
+		return "Film [filmId=" + filmId + ", lastUpdate=" + lastUpdate + ", title=" + title + "]";
 	}
 
 }

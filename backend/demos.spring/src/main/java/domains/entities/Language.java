@@ -9,50 +9,55 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.validator.constraints.Length;
 
 import com.example.domains.core.entities.EntityBase;
-import com.example.domains.entities.Film;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+
 
 /**
  * The persistent class for the language database table.
  * 
  */
 @Entity
-@Table(name = "language")
-@NamedQuery(name = "Language.findAll", query = "SELECT l FROM Language l")
+@Table(name="language")
+@NamedQuery(name="Language.findAll", query="SELECT l FROM Language l")
 public class Language extends EntityBase<Language> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "language_id")
-	@JsonProperty("id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="language_id")
 	private int languageId;
 
-	@Column(name = "last_update")
+	@Column(name="last_update")
 	@Generated(value = GenerationTime.ALWAYS)
 	private Timestamp lastUpdate;
 
 	@NotBlank
-	@Length(max = 25)
-	@JsonProperty("language")
+	@Length(max=20)
 	private String name;
 
-	// bi-directional many-to-one association to Film
-	@OneToMany(mappedBy = "language")
-	@JsonIgnore
+	//bi-directional many-to-one association to Film
+	@OneToMany(mappedBy="language")
 	private List<Film> films;
 
-	// bi-directional many-to-one association to Film
-	@OneToMany(mappedBy = "languageVO")
-	@JsonIgnore
+	//bi-directional many-to-one association to Film
+	@OneToMany(mappedBy="languageVO")
 	private List<Film> filmsVO;
 
 	public Language() {
+	}
+
+	public Language(int languageId) {
+		super();
+		this.languageId = languageId;
+	}
+
+	public Language(int languageId, @NotBlank @Length(max = 20) String name) {
+		super();
+		this.languageId = languageId;
+		this.name = name;
 	}
 
 	public int getLanguageId() {
@@ -136,6 +141,11 @@ public class Language extends EntityBase<Language> implements Serializable {
 			return false;
 		Language other = (Language) obj;
 		return languageId == other.languageId;
+	}
+
+	@Override
+	public String toString() {
+		return "Language [languageId=" + languageId + ", name=" + name + ", lastUpdate=" + lastUpdate + "]";
 	}
 
 }
