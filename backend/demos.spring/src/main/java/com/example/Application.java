@@ -15,6 +15,8 @@ import com.example.jdbc.ConsultaSQL;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import springfox.documentation.oas.annotations.EnableOpenApi;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -25,28 +27,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 
+@EnableOpenApi
 @SpringBootApplication
-public class Application implements CommandLineRunner { 
+public class Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
 	@Autowired
 	@Qualifier("despliegue")
 	Servicio srv;
-	
+
 	@Autowired(required = false)
 	@Qualifier("manual")
 	Servicio srv1;
-	
+
 	@Autowired
 	ConsultaSQL jdbc;
-	
+
 	@Autowired
 	ActorRepositoy dao;
 
-	
 	@Autowired
 	ActorService srvActor;
 
@@ -58,16 +60,16 @@ public class Application implements CommandLineRunner {
 //		srv.setName("coña");
 //		srv.run();
 //		if(srv1 != null) srv1.run();
-		
+
 //		jdbc.run();
 //		jdbc.conPlantilla();
-		
+
 //		try {
 //			crud();
 //		} catch (Exception ex) {
 //			System.out.println("ERROR: " + ex.getMessage());
 //		}
-		
+
 //		dao.save(new Actor(206, "Grillo", "Pepito", new Timestamp(0)));
 //		dao.deleteById(206);
 //		dao.findAll().forEach(System.out::println);
@@ -75,7 +77,7 @@ public class Application implements CommandLineRunner {
 //		dao.findByFirstName("nick").forEach(System.out::println);
 //		dao.findByFirstNameStartingWithAndLastNameEndingWith("n","s").forEach(System.out::println);
 //		System.err.println(dao.getClass().getName());
-		
+
 //		var a = dao.findById(1).get();
 //		a.getFilmActors().forEach(item -> System.out.println(item.getFilm().getTitle()));
 //		var a = new Actor(206, "ggg", null, new Timestamp(0));
@@ -102,9 +104,9 @@ public class Application implements CommandLineRunner {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		
+
 //		srvActor.getAll().forEach(item -> System.out.println(item));
-		
+
 //		try {
 //			srvActor.add(new Actor(0, "", null, new Timestamp(0)));
 //		} catch (DuplicateKeyException e) {
@@ -145,7 +147,7 @@ public class Application implements CommandLineRunner {
 
 		System.out.println("Delete <-----------------------");
 		dao.deleteById(newId);
-		if(dao.findById(newId).isEmpty())
+		if (dao.findById(newId).isEmpty())
 			System.out.println("Ya no está");
 		else
 			System.out.println("ERROR: no se ha borrado");

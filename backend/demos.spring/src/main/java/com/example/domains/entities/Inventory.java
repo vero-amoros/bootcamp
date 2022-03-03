@@ -5,40 +5,44 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the inventory database table.
  * 
  */
 @Entity
-@Table(name="inventory")
-@NamedQuery(name="Inventory.findAll", query="SELECT i FROM Inventory i")
+@Table(name = "inventory")
+@NamedQuery(name = "Inventory.findAll", query = "SELECT i FROM Inventory i")
 public class Inventory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="inventory_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "inventory_id")
 	private int inventoryId;
 
-	@Column(name="last_update")
+	@Column(name = "last_update")
 	private Timestamp lastUpdate;
 
-	//bi-directional many-to-one association to Film
+	// bi-directional many-to-one association to Film
 	@ManyToOne
-	@JoinColumn(name="film_id")
+	@JoinColumn(name = "film_id")
 	private Film film;
 
-	//bi-directional many-to-one association to Store
+	// bi-directional many-to-one association to Store
 	@ManyToOne
-	@JoinColumn(name="store_id")
+	@JoinColumn(name = "store_id")
 	private Store store;
 
-	//bi-directional many-to-one association to Rental
-	@OneToMany(mappedBy="inventory")
+	// bi-directional many-to-one association to Rental
+	@OneToMany(mappedBy = "inventory")
 	private List<Rental> rentals;
 
 	public Inventory() {
+	}
+
+	public Inventory(int inventoryId) {
+		super();
+		this.inventoryId = inventoryId;
 	}
 
 	public int getInventoryId() {

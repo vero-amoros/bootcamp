@@ -7,88 +7,92 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.domains.contracts.repositories.ActorRepositoy;
-import com.example.domains.contracts.services.ActorService;
-import com.example.domains.entities.Actor;
+import com.example.domains.contracts.repositories.RentalRepository;
+
+import com.example.domains.contracts.services.RentalService;
+import com.example.domains.entities.Rental;
 import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
 import com.example.exceptions.NotFoundException;
 
 @Service
-public class ActorServiceImpl implements ActorService {
-	private ActorRepositoy dao;
-	
-	public ActorServiceImpl(ActorRepositoy dao) {
+public class RentalServiceImpl implements RentalService {
+	private RentalRepository dao;
+
+	public RentalServiceImpl(RentalRepository dao) {
 		this.dao = dao;
 	}
-	
+
 	@Override
-	public List<Actor> getAll() {
+	public List<Rental> getAll() {
 		return dao.findAll();
 	}
-	
+
 	@Override
-	public Iterable<Actor> getAll(Sort sort) {
+	public Iterable<Rental> getAll(Sort sort) {
 		return dao.findAll(sort);
 	}
+
 	@Override
-	public Page<Actor> getAll(Pageable pageable) {
+	public Page<Rental> getAll(Pageable pageable) {
 		return dao.findAll(pageable);
 	}
-	
+
 	@Override
 	public <T> List<T> getByProjection(Class<T> type) {
-		return dao.findByActorIdIsNotNull(type);
+		return dao.findByRentalIdIsNotNull(type);
 	}
 
 	@Override
 	public <T> Iterable<T> getByProjection(Sort sort, Class<T> type) {
-		return dao.findByActorIdIsNotNull(sort, type);
+		return dao.findByRentalIdIsNotNull(sort, type);
 	}
 
 	@Override
 	public <T> Page<T> getByProjection(Pageable pageable, Class<T> type) {
-		return dao.findByActorIdIsNotNull(pageable, type);
+		return dao.findByRentalIdIsNotNull(pageable, type);
 	}
 
 	@Override
-	public Actor getOne(Integer id) throws NotFoundException {
+	public Rental getOne(Integer id) throws NotFoundException {
 		var item = dao.findById(id);
-		if(item.isEmpty())
+		if (item.isEmpty())
 			throw new NotFoundException();
 		return item.get();
 	}
-	
+
 	@Override
-	public Actor add(Actor item) throws DuplicateKeyException, InvalidDataException {
-		if(item == null)
+	public Rental add(Rental item) throws DuplicateKeyException, InvalidDataException {
+		if (item == null)
 			throw new IllegalArgumentException();
-		if(dao.findById(item.getActorId()).isPresent())
+		if (dao.findById(item.getRentalId()).isPresent())
 			throw new DuplicateKeyException();
-		if(item.isInvalid())
+		if (item.isInvalid())
 			throw new InvalidDataException(item.getErrorsMessage());
 		return dao.save(item);
 	}
+
 	@Override
-	public Actor change(Actor item) throws NotFoundException, InvalidDataException  {
-		if(item == null)
+	public Rental change(Rental item) throws NotFoundException, InvalidDataException {
+		if (item == null)
 			throw new IllegalArgumentException();
-		if(dao.findById(item.getActorId()).isEmpty())
+		if (dao.findById(item.getRentalId()).isEmpty())
 			throw new NotFoundException();
-		if(item.isInvalid())
+		if (item.isInvalid())
 			throw new InvalidDataException(item.getErrorsMessage());
 		return dao.save(item);
 	}
+
 	@Override
-	public void delete(Actor item) {
-		if(item == null)
+	public void delete(Rental item) {
+		if (item == null)
 			throw new IllegalArgumentException();
-		deleteById(item.getActorId());
-		
+		deleteById(item.getRentalId());
+
 	}
+
 	@Override
 	public void deleteById(Integer id) {
 		dao.deleteById(id);
 	}
-
 }

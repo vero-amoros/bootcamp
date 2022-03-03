@@ -9,27 +9,37 @@ import javax.persistence.*;
  */
 @Embeddable
 public class FilmCategoryPK implements Serializable {
-	//default serial version id, required for serializable classes.
+	// default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="film_id", insertable=false, updatable=false)
+	@Column(name = "film_id", insertable = false, updatable = false)
 	private int filmId;
 
-	@Column(name="category_id", insertable=false, updatable=false)
-	private byte categoryId;
+	@Column(name = "category_id", insertable = false, updatable = false)
+	private int categoryId;
 
 	public FilmCategoryPK() {
 	}
+
+	public FilmCategoryPK(int categoryId, int filmId) {
+		super();
+		this.filmId = filmId;
+		this.categoryId = categoryId;
+	}
+
 	public int getFilmId() {
 		return this.filmId;
 	}
+
 	public void setFilmId(int filmId) {
 		this.filmId = filmId;
 	}
-	public byte getCategoryId() {
+
+	public int getCategoryId() {
 		return this.categoryId;
 	}
-	public void setCategoryId(byte categoryId) {
+
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -40,10 +50,8 @@ public class FilmCategoryPK implements Serializable {
 		if (!(other instanceof FilmCategoryPK)) {
 			return false;
 		}
-		FilmCategoryPK castOther = (FilmCategoryPK)other;
-		return 
-			(this.filmId == castOther.filmId)
-			&& (this.categoryId == castOther.categoryId);
+		FilmCategoryPK castOther = (FilmCategoryPK) other;
+		return (this.filmId == castOther.filmId) && (this.categoryId == castOther.categoryId);
 	}
 
 	public int hashCode() {
@@ -51,7 +59,7 @@ public class FilmCategoryPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.filmId;
 		hash = hash * prime + ((int) this.categoryId);
-		
+
 		return hash;
 	}
 }

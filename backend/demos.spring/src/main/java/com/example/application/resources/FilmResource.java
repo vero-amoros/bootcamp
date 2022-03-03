@@ -1,11 +1,13 @@
 package com.example.application.resources;
 
+import java.awt.print.Pageable;
 import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.application.dtos.FilmDTO;
+import com.example.application.dtos.FilmShortDTO;
 import com.example.domains.contracts.services.FilmService;
 import com.example.domains.entities.Film;
 import com.example.exceptions.DuplicateKeyException;
@@ -33,15 +36,18 @@ public class FilmResource {
 	private FilmService srv;
 
 	@GetMapping
-	public List<FilmDTO> getAll() {
-		return srv.getByProjection(FilmDTO.class);
-	}
-
-	@GetMapping(path = "/{id}")
-	public FilmDTO getOne(@PathVariable int id) throws NotFoundException {
-		return FilmDTO.from(srv.getOne(id));
+	public List<FilmShortDTO> getAll() {
+		return srv.getByProjection(FilmShortDTO.class);
 	}
 	
+
+	
+
+//	@GetMapping(path = "/{id}")
+//	public FilmDTO getOne(@PathVariable int id) throws NotFoundException {
+//		return FilmDTO.from(srv.getOne(id));
+//	}
+//	
 	@PostMapping
 	public ResponseEntity<Object> create(@Valid @RequestBody FilmDTO item) throws InvalidDataException, DuplicateKeyException {
 		Film Film = FilmDTO.from(item);

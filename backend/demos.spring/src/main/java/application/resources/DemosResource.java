@@ -1,4 +1,4 @@
-package com.example.application.resources;
+package application.resources;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CookieValue;

@@ -7,33 +7,33 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import java.sql.Timestamp;
-
+import java.util.Objects;
 
 /**
  * The persistent class for the film_actor database table.
  * 
  */
 @Entity
-@Table(name="film_actor")
-@NamedQuery(name="FilmActor.findAll", query="SELECT f FROM FilmActor f")
+@Table(name = "film_actor")
+@NamedQuery(name = "FilmActor.findAll", query = "SELECT f FROM FilmActor f")
 public class FilmActor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private FilmActorPK id;
 
-	@Column(name="last_update")
+	@Column(name = "last_update")
 	@Generated(value = GenerationTime.ALWAYS)
 	private Timestamp lastUpdate;
 
-	//bi-directional many-to-one association to Actor
+	// bi-directional many-to-one association to Actor
 	@ManyToOne
-	@JoinColumn(name="actor_id", insertable=false, updatable=false)
+	@JoinColumn(name = "actor_id", insertable = false, updatable = false)
 	private Actor actor;
 
-	//bi-directional many-to-one association to Film
+	// bi-directional many-to-one association to Film
 	@ManyToOne
-	@JoinColumn(name="film_id", insertable=false, updatable=false)
+	@JoinColumn(name = "film_id", insertable = false, updatable = false)
 	private Film film;
 
 	public FilmActor() {
@@ -76,6 +76,21 @@ public class FilmActor implements Serializable {
 
 	public void setFilm(Film film) {
 		this.film = film;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof FilmActor))
+			return false;
+		FilmActor other = (FilmActor) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }

@@ -6,58 +6,62 @@ import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the customer database table.
  * 
  */
 @Entity
-@Table(name="customer")
-@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c")
+@Table(name = "customer")
+@NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
 public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="customer_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "customer_id")
 	private int customerId;
 
 	private byte active;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="create_date")
+	@Column(name = "create_date")
 	private Date createDate;
 
 	private String email;
 
-	@Column(name="first_name")
+	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name="last_update")
+	@Column(name = "last_update")
 	private Timestamp lastUpdate;
 
-	//bi-directional many-to-one association to Address
+	// bi-directional many-to-one association to Address
 	@ManyToOne
-	@JoinColumn(name="address_id")
+	@JoinColumn(name = "address_id")
 	private Address address;
 
-	//bi-directional many-to-one association to Store
+	// bi-directional many-to-one association to Store
 	@ManyToOne
-	@JoinColumn(name="store_id")
+	@JoinColumn(name = "store_id")
 	private Store store;
 
-	//bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy="customer")
+	// bi-directional many-to-one association to Payment
+	@OneToMany(mappedBy = "customer")
 	private List<Payment> payments;
 
-	//bi-directional many-to-one association to Rental
-	@OneToMany(mappedBy="customer")
+	// bi-directional many-to-one association to Rental
+	@OneToMany(mappedBy = "customer")
 	private List<Rental> rentals;
 
 	public Customer() {
+	}
+
+	public Customer(int customerId) {
+		super();
+		this.customerId = customerId;
 	}
 
 	public int getCustomerId() {

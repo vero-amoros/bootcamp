@@ -5,33 +5,32 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the staff database table.
  * 
  */
 @Entity
-@Table(name="staff")
-@NamedQuery(name="Staff.findAll", query="SELECT s FROM Staff s")
+@Table(name = "staff")
+@NamedQuery(name = "Staff.findAll", query = "SELECT s FROM Staff s")
 public class Staff implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="staff_id")
-	private byte staffId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "staff_id")
+	private int staffId;
 
 	private byte active;
 
 	private String email;
 
-	@Column(name="first_name")
+	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name="last_update")
+	@Column(name = "last_update")
 	private Timestamp lastUpdate;
 
 	private String password;
@@ -41,36 +40,41 @@ public class Staff implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy="staff")
+	// bi-directional many-to-one association to Payment
+	@OneToMany(mappedBy = "staff")
 	private List<Payment> payments;
 
-	//bi-directional many-to-one association to Rental
-	@OneToMany(mappedBy="staff")
+	// bi-directional many-to-one association to Rental
+	@OneToMany(mappedBy = "staff")
 	private List<Rental> rentals;
 
-	//bi-directional many-to-one association to Address
+	// bi-directional many-to-one association to Address
 	@ManyToOne
-	@JoinColumn(name="address_id")
+	@JoinColumn(name = "address_id")
 	private Address address;
 
-	//bi-directional many-to-one association to Store
+	// bi-directional many-to-one association to Store
 	@ManyToOne
-	@JoinColumn(name="store_id")
+	@JoinColumn(name = "store_id")
 	private Store store;
 
-	//bi-directional many-to-one association to Store
-	@OneToMany(mappedBy="staff")
+	// bi-directional many-to-one association to Store
+	@OneToMany(mappedBy = "staff")
 	private List<Store> stores;
 
 	public Staff() {
 	}
 
-	public byte getStaffId() {
+	public Staff(int staffId) {
+		super();
+		this.staffId = staffId;
+	}
+
+	public int getStaffId() {
 		return this.staffId;
 	}
 
-	public void setStaffId(byte staffId) {
+	public void setStaffId(int staffId) {
 		this.staffId = staffId;
 	}
 
