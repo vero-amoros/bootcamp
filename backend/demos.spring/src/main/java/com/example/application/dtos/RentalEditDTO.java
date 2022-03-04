@@ -63,7 +63,8 @@ public class RentalEditDTO {
 	private List<PaymentEditDTO> payments;
 
 	public static RentalEditDTO from(Rental source) {
-		return new RentalEditDTO(source.getRentalId(), 
+		return new RentalEditDTO(
+				source.getRentalId(), 
 				source.getCustomer().getCustomerId(),
 				source.getInventory().getInventoryId(), 
 				source.getStaff().getStaffId(), 

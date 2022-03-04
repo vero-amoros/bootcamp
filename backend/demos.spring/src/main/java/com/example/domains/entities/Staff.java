@@ -2,6 +2,7 @@ package com.example.domains.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.List;
 
