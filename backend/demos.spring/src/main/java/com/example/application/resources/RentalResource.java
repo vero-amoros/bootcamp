@@ -68,12 +68,12 @@ public class RentalResource {
 	}
 
 	@GetMapping(path = "/{id}", params = "mode=edit")
-	@ApiOperation(value = "Recuperar un alquiler")
+	@ApiOperation(value = "Recupera un alquiler")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Alquiler encontrado"),
 			@ApiResponse(code = 404, message = "Alquiler no encontrado") })
 	
 	public RentalEditDTO getOneEdit(@ApiParam(value = "Identificador del alquiler") @PathVariable int id,
-			@ApiParam(value = "Versión completa o editable", required = false, allowableValues = "details,edit", defaultValue = "edit") @RequestParam(required = true) String mode)
+			@ApiParam(value = "Versión completa o editable", required = false, allowableValues = "details,edit") @RequestParam(required = true) String mode)
 			throws NotFoundException {
 		return RentalEditDTO.from(srv.getOne(id));
 	}

@@ -32,18 +32,27 @@ import com.example.domains.entities.Staff;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Value;
 
 @Value
 public class PaymentDetailsDTO {
 
 	@JsonProperty("id")
+	@ApiModelProperty(value = "Identificador del pago")
 	private int paymentId;
 	@JsonProperty("empleado")
+	@NotBlank
+	@ApiModelProperty(value = "Nombre del empleado")
 	private String empleado;
 	@JsonProperty("total")
+	@NotNull
+	@DecimalMin(value = "0.0", inclusive = false)
+	@Digits(integer = 3, fraction = 2)
+	@ApiModelProperty(value = "Un máximo de 3 dígitos enteros y 2 decimales")
 	private BigDecimal amount;
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@ApiModelProperty(value = "Fecha de pago")
 	private Date fecha;
 
 

@@ -35,7 +35,7 @@ public class Payment implements Serializable {
 
 	@NotNull
 	@DecimalMin(value = "0.0", inclusive = false)
-	@Digits(integer = 5, fraction = 2)
+	@Digits(integer = 3, fraction = 2)
 	private BigDecimal amount;
 
 	@Column(name="last_update")

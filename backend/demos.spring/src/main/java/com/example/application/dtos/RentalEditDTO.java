@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -39,25 +40,26 @@ import lombok.Value;
 public class RentalEditDTO {
 
 	@JsonProperty("id")
+	@ApiModelProperty(value = "Identificador del alquiler")
 	private int rentalId;
 	@JsonProperty("cliente")
-	@NotNull
-	@ApiModelProperty(value = "Identificador del cliente.")
+	@Positive
+	@ApiModelProperty(value = "Identificador del cliente")
 	private int customer;
 	@JsonProperty("pelicula")
-	@NotNull
+	@Positive
 	@ApiModelProperty(value = "Identificador de la película en el inventario")
 	private int inventory; // vamos a sacar el id de la pelicula del inventario
-	@NotNull
-	@ApiModelProperty(value = "Identificador del empleado.")
+	@Positive
+	@ApiModelProperty(value = "Identificador del empleado")
 	private int empleado; // staff
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-	@ApiModelProperty(value = "Fecha de alquiler de la película.")
+	@ApiModelProperty(value = "Fecha de alquiler de la película")
 	private Date rentalDate;
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-	@ApiModelProperty(value = "Fecha de devolución de la película.")
+	@ApiModelProperty(value = "Fecha de devolución de la película")
 	private Date returnDate;
-	@ApiModelProperty(value = "Lista de pagos.")
+	@ApiModelProperty(value = "Lista de pagos")
 	private List<PaymentEditDTO> payments;
 
 	public static RentalEditDTO from(Rental source) {
