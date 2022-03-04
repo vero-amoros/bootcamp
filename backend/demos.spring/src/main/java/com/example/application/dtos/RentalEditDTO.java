@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,99 +30,93 @@ import com.example.domains.entities.Staff;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Value;
 
 @Value
+@ApiModel(value = "Alquiler editable", description = "Version editable de los alquileres.")
 public class RentalEditDTO {
 
 	@JsonProperty("id")
 	private int rentalId;
 	@JsonProperty("cliente")
+	@NotNull
+	@ApiModelProperty(value = "Identificador del cliente.")
 	private int customer;
 	@JsonProperty("pelicula")
-	private int inventory; //vamos a sacar el id de la pelicula del inventario
-	private int empleado; //staff
+	@NotNull
+	@ApiModelProperty(value = "Identificador de la película en el inventario")
+	private int inventory; // vamos a sacar el id de la pelicula del inventario
+	@NotNull
+	@ApiModelProperty(value = "Identificador del empleado.")
+	private int empleado; // staff
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@ApiModelProperty(value = "Fecha de alquiler de la película.")
 	private Date rentalDate;
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@ApiModelProperty(value = "Fecha de devolución de la película.")
 	private Date returnDate;
-	private List<Integer> payments;
-	
-	
+	@ApiModelProperty(value = "Lista de pagos.")
+	private List<PaymentEditDTO> payments;
 
 	public static RentalEditDTO from(Rental source) {
-		return new RentalEditDTO(
-				source.getRentalId(),
+		return new RentalEditDTO(source.getRentalId(), 
 				source.getCustomer().getCustomerId(),
-				source.getInventory().getInventoryId(),
-				source.getStaff().getStaffId(),
+				source.getInventory().getInventoryId(), 
+				source.getStaff().getStaffId(), 
 				source.getRentalDate(),
-				source.getReturnDate(),
-				null
-				);
+				source.getReturnDate() == null ? null : source.getReturnDate(),
+				source.getPayments().stream().map(pago -> PaymentEditDTO.from(pago)).toList());
 	}
-	
+
 	public static Rental from(RentalEditDTO source) {
 		return new Rental(
-				source.getRentalId(),
-				source.getRentalDate(),
+				source.getRentalId(), 
+				source.getRentalDate(), 
 				new Inventory(source.getInventory()),
-				new Customer(source.getCustomer()),
-				source.getReturnDate(),
-				new Staff(source.getEmpleado()),
-				null
-				);
+				new Customer(source.getCustomer()), 
+				source.getReturnDate(), 
+				new Staff(source.getEmpleado()));
 	}
-	
-//	public Rental update(Rental target) {
-//		target.setRentalId(rentalId);
-//		target.setRentalDate(rentalDate);
-//		target.setInventory(new Inventory(target.getInventory()));
-//		target.setReturnDate(returnDate == null ? null : target.setReturnDate(returnDate));
-//		
-//		
-//		
-	
-	
-//		target.setReleaseYear(releaseYear);
-//		if(target.getLanguage().getLanguageId() != language)
-//			target.setLanguage(new Language(language));
-//		target.setLanguageVO(languageVO == null ? null : new Language(languageVO));
-//		target.setRentalDuration(rentalDuration);
-//		target.setRentalRate(rentalRate);
-//		target.setLength(length);
-//		target.setReplacementCost(replacementCost);
-//		target.setRating(rating == null ? null : Rental.Rating.getEnum(rating));
-////ENTITY(1,3,5)
-////DTO(1,7)
-//		// Borra los actores que sobran
-//		var delActores = target.getRentalActors().stream()
-//				.filter(item -> !actores.contains(item.getActor().getActorId()))
-//				.toList();
-//		delActores.forEach(item -> target.removeRentalActor(item));
-//		// Añade los actores que falta
-//		actores.stream()
-//			.filter(idActorDTO -> !target.getRentalActors().stream().anyMatch(RentalActor -> RentalActor.getActor().getActorId() == idActorDTO))
-//			.forEach(idActorDTO -> target.addRentalActor(new Actor(idActorDTO)));
-////			.forEach(idActorDTO -> {
-////				var RentalActor = new RentalActor();
-////				RentalActor.setRental(target);
-////				RentalActor.setActor(new Actor(idActorDTO));
-////				var pk = new RentalActorPK();
-////				pk.setActorId(idActorDTO);
-////				pk.setRentalId(RentalId);
-////				RentalActor.setId(pk);
-////				target.getRentalActors().add(RentalActor);
-////			});
-//		// Borra las categorias que sobran
-//		var delCategorias = target.getRentalCategories().stream()
-//				.filter(item -> !categorias.contains(item.getCategory().getCategoryId()))
-//				.toList();
-//		delCategorias.forEach(item -> target.removeRentalCategory(item));
-//		// Añade las categorias que falta
-//		categorias.stream()
-//			.filter(idCategoriaDTO -> target.getRentalCategories().stream().noneMatch(RentalCategory -> RentalCategory.getCategory().getCategoryId() == idCategoriaDTO))
-//			.forEach(idCategoriaDTO -> target.addRentalCategory(new Category(idCategoriaDTO)));
-//		return target;
-//	}
+
+	public Rental update(Rental target) {
+		target.setRentalDate(rentalDate);
+		target.setReturnDate(returnDate);
+		target.setCustomer(new Customer(customer));
+		target.setInventory(new Inventory(inventory));
+		target.setStaff(new Staff(empleado));
+		
+		//Borra los alquileres que sobran
+		var delAlquiladas = target.getPayments().stream()
+				.filter(item -> payments.stream().noneMatch(pago -> pago.getPaymentId() == item.getPaymentId()))
+				.toList();
+		delAlquiladas.forEach(item -> target.removePayment(item));
+		
+		//Modifico los que han quedado
+		target.getPayments().forEach(item -> { //item es lo de la base de datos y nuevo pago lo del DTO
+			var nuevoPago = payments.stream().filter(pago -> pago.getPaymentId() == item.getPaymentId()).findFirst().get();//este es el que viene del DTO 
+			if(item.getAmount() != nuevoPago.getAmount()) {
+				item.setAmount(nuevoPago.getAmount());
+			}
+			if(item.getPaymentDate() != nuevoPago.getFecha()) {
+				item.setPaymentDate(nuevoPago.getFecha());
+			}
+			
+			if(item.getStaff().getStaffId() != nuevoPago.getEmpleado()) {
+				item.setStaff(new Staff(nuevoPago.getEmpleado()));
+			}
+				
+		});
+		
+		payments.stream()
+		.filter(paymentDTO -> target.getPayments().stream().noneMatch(alquiler -> alquiler.getPaymentId() == paymentDTO.getPaymentId()))
+		.forEach(paymentDTO -> target.addPayment(new Payment(
+				paymentDTO.getPaymentId(),
+				paymentDTO.getAmount(),
+				paymentDTO.getFecha(),
+				new Staff(paymentDTO.getEmpleado()),
+				target)));
+		return target;
+	}
 }

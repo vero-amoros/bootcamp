@@ -10,6 +10,9 @@ import javax.validation.constraints.PastOrPresent;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -30,7 +33,7 @@ public class Rental extends EntityBase<Rental> implements Serializable {
 	@Column(name = "rental_id")
 	private int rentalId;
 
-	@NotBlank
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	@Column(name = "rental_date")
@@ -56,29 +59,43 @@ public class Rental extends EntityBase<Rental> implements Serializable {
 	private Staff staff;
 
 	@Column(name = "last_update")
-	@PastOrPresent
 	@Generated(value = GenerationTime.ALWAYS)
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 	private Timestamp lastUpdate;
 
 	// bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy = "rental") // hacer el cascade
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true) // hacer el cascade
 	@Valid // tengo que validar que todos los pagos que vienen sean validos
 	// que se meta en los payments y valide cada uno de klos payments
 	private List<Payment> payments;
 
 	public Rental() {
+		super();
+		payments  = new ArrayList<Payment>(); //TODO QUITAR???
+	}
+	
+	public Rental(int rentalId) {
+		super();
+		this.rentalId = rentalId;
 	}
 
-	public Rental(int rentalId, @NotBlank @NotNull Date rentalDate, Inventory inventory, Customer customer,
-			Date returnDate, Staff staff, @Valid List<Payment> payments) {
-		super();
+	public Rental(int rentalId, @Valid List<Payment> payments, Customer customer) {
+		this(); //TODO SUPER
+		this.rentalId = rentalId;
+		this.payments = payments;
+		this.customer = customer;
+	}
+
+	public Rental(int rentalId, Date rentalDate, Inventory inventory, Customer customer,
+			Date returnDate, Staff staff) {
+		this(); //TODO SUPER
 		this.rentalId = rentalId;
 		this.rentalDate = rentalDate;
 		this.inventory = inventory;
 		this.customer = customer;
 		this.returnDate = returnDate;
 		this.staff = staff;
-		this.payments = payments;
+		//this.payments = payments;
 	}
 
 	public int getRentalId() {
@@ -173,6 +190,12 @@ public class Rental extends EntityBase<Rental> implements Serializable {
 			return false;
 		Rental other = (Rental) obj;
 		return rentalId == other.rentalId;
+	}
+	
+	@Override
+	public String toString() {
+		return "Rental [rentalId=" + rentalId + ", rentalDate=" + rentalDate + ", returnDate=" + returnDate
+				+ ", payments=" + payments + ", customer=" + customer + "]";
 	}
 
 }
