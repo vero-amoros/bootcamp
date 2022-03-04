@@ -52,6 +52,7 @@ public class RentalResource {
 		return srv.getAll().stream().map(rental -> RentalShortDTO.from(rental)).toList();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping(params = "page")
 	@ApiOperation(value = "Listado paginable de los alquileres")
 	public Page<RentalShortDTO> getAll(@ApiParam(required = false) Pageable page) {

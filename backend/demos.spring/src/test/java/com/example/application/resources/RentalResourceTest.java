@@ -1,4 +1,4 @@
-package test.java.com.example.application.resources;
+package com.example.application.resources;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -7,7 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,46 +21,51 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
-import com.example.application.dtos.ActorDTO;
-import com.example.domains.contracts.services.ActorService;
+import com.example.application.dtos.PaymentEditDTO;
+import com.example.application.dtos.RentalEditDTO;
+import com.example.domains.contracts.services.RentalService;
 import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
 import com.example.exceptions.NotFoundException;
 
-import application.resources.ActorResource;
 
 @SpringBootTest
 //@AutoConfigureMockMvc
-class ActorResourceTest {
-	List<ActorDTO> listado;
+class RentalResourceTest {
+	List<RentalEditDTO> listado;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		listado = new ArrayList<ActorDTO>();
-		listado.add(new ActorDTO(1, "uno", "auno"));
-		listado.add(new ActorDTO(2, "dos", "ados"));
+		java.util.Date date1 = Date.from( Instant.parse( "2014-10-12T10:39:40Z" ));
+		java.util.Date date2 = Date.from( Instant.parse( "2014-12-12T10:39:40Z" ));
+		java.util.Date date3 = Date.from( Instant.parse( "2015-12-12T10:39:40Z" ));
+		listado = new ArrayList<RentalEditDTO>();
+		listado.add(new RentalEditDTO(1, 1, 2, 3, date1, date2,
+				List.of(new PaymentEditDTO(1, 1, new java.math.BigDecimal("0.99"), date3))));
+		listado.add(new RentalEditDTO(2, 2, 3, 4, date2, date3,
+				List.of(new PaymentEditDTO(2, 2, new java.math.BigDecimal("2.99"), date3))));
 	}
 
 	public static class IoCTestConfig {
 		@Bean
-		ActorService getServicio() {
-			return mock(ActorService.class);
+		RentalService getServicio() {
+			return mock(RentalService.class);
 		}
 		@Bean
-		ActorResource getRest() {
-			return new ActorResource();
+		RentalResource getRest() {
+			return new RentalResource();
 		}
 	}
 
 	@Nested
 	//@ContextConfiguration(classes = IoCTestConfig.class)
-	@MockBean(ActorService.class)
+	@MockBean(RentalService.class)
 	class PruebasUnitarias {
 		@Autowired
-		ActorService srv;
+		RentalService srv;
 		
 		@Autowired
-		ActorResource rest;
+		RentalResource rest;
 		
 		@Test
 		void testMock() {
@@ -67,7 +74,7 @@ class ActorResourceTest {
 		}
 		@Test
 		void testGetAll() {
-			when(srv.getByProjection(ActorDTO.class)).thenReturn(listado);
+			when(srv.getByProjection(RentalEditDTO.class)).thenReturn(listado); 
 
 			var rslt = rest.getAll();
 
@@ -77,23 +84,23 @@ class ActorResourceTest {
 
 		@Test
 		void testGetOne() throws NotFoundException {
-			when(srv.getOne(1)).thenReturn(ActorDTO.from(listado.get(0)));
+			when(srv.getOne(1)).thenReturn(RentalEditDTO.from(listado.get(0))); 
 
-			var rslt = rest.getOne(1);
+			var rslt = rest.getOneEdit(1, "edit");
 			assertNotNull(rslt);
-			assertEquals(1, rslt.getActorId());
+			assertEquals(1, rslt.getRentalId());
 		}
 
 		@Test
 		void testGetOneNotFound() throws NotFoundException {
 			when(srv.getOne(1)).thenThrow(NotFoundException.class);
 			
-			assertThrows(NotFoundException.class, () -> rest.getOne(1));
+			assertThrows(NotFoundException.class, () -> rest.getOneEdit(1, "edit"));
 		}
 
 		@Test
 		void testCreate() throws NotFoundException, DuplicateKeyException, InvalidDataException {
-			when(srv.add(any())).thenReturn(ActorDTO.from(listado.get(0)));
+			when(srv.add(any())).thenReturn(RentalEditDTO.from(listado.get(0)));
 
 			var rslt = rest.create(listado.get(0));
 			assertNotNull(rslt);
@@ -111,18 +118,19 @@ class ActorResourceTest {
 			
 			assertThrows(InvalidDataException.class, () -> rest.create(listado.get(0)));
 		}
-
-		@Test
-		void testUpdate() throws NotFoundException, InvalidDataException {
-			when(srv.change(any())).thenReturn(ActorDTO.from(listado.get(0)));
-
-			rest.update(1, listado.get(0));
-			verify(srv).change(ActorDTO.from(listado.get(0)));
-		}
+//
+//		@Test
+//		void testUpdate() throws NotFoundException, InvalidDataException {
+//
+//			when(srv.change(any())).thenReturn(RentalEditDTO.from(listado.get(0)));
+//
+//			rest.update(1, listado.get(0));
+//			verify(srv).change(RentalEditDTO.from(listado.get(0)));
+//		}
 
 		@Test
 		void testUpdateInvalidId() throws NotFoundException, InvalidDataException {
-			assertThrows(InvalidDataException.class, () -> rest.update(0, listado.get(0)));
+			assertThrows(InvalidDataException.class, () -> rest.update(0, listado.get(0)));//meter valor invalido
 		}
 		@Test
 		void testUpdateNotFound() throws NotFoundException, InvalidDataException {
@@ -132,7 +140,7 @@ class ActorResourceTest {
 		}
 		@Test
 		void testUpdateInvalidData() throws NotFoundException, InvalidDataException {
-			assertThrows(InvalidDataException.class, () -> rest.update(1, new ActorDTO()));
+			assertThrows(InvalidDataException.class, () -> rest.update(1, new RentalEditDTO(0, 0, 0, 0, null, null, null)));
 		}
 
 		@Test
