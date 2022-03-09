@@ -1,5 +1,6 @@
 package com.example.exceptions;
 
+@SuppressWarnings("serial")
 public class NotFoundException extends Exception {
 	public NotFoundException() {
 		this("NOT FOUND");

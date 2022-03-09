@@ -58,7 +58,6 @@ public class DemosResource {
 	        @PathVariable int id) throws Exception {
 
 		throw new InvalidDataException("Forzado");
-//	    return new ActorDTO(id, "Pepito", "Grillo") ;
 	}
 
 	@PostMapping("/datos")
@@ -66,7 +65,6 @@ public class DemosResource {
 	public String datos(
 	        @RequestBody ActorDTO item) throws Exception {
 		throw new NotFoundException("Forzado");
-	    //return item.toString() ;
 	}
 
 }

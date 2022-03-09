@@ -10,6 +10,7 @@ import javax.validation.Validator;
 
 public class EntityBase<E> {
 	
+	@SuppressWarnings("unchecked")
 	@Transient
 	public Set<ConstraintViolation<E>> getErrors() {
 		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();

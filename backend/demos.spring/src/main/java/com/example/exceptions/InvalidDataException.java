@@ -1,5 +1,6 @@
 package com.example.exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidDataException extends Exception {
 
 	public InvalidDataException(String message) {
