@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans&family=PT+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300&display=swap");
+* {
+  box-sizing: border-box;
+  font-family: "Sora", sans-serif;
+  color: #353535;
+}
+
+body {
+  min-width: 360px;
+  margin: auto;
+}
+
+.logo {
+  width: 60px;
+  display: flex;
+}
+
+body > header {
+  overflow: hidden;
+  padding: 0.5em;
+  display: flex;
+  position: relative;
+  /*text-align: center;*/
+}
+
+body > header > h1 {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  flex-grow: 1;
+  /*  margin-left: 2em;*/
+  padding: 0.6em 0 0 0;
+  font-size: 18px;
+}
+
+.derecha {
+  width: 50px;
+  padding: 0.5em;
+  display: flex;
+  position: relative;
+}
+
+/********** BARRA DE NAVEGACIÓN **********/
+body > nav {
+  background-color: #ffa200;
+}
+
+body > nav > ul {
+  padding: 0; /*intentar quitar*/
+  list-style-type: none;
+  overflow: hidden;
+  transition: max-height 0.5s linear;
+  max-height: 2.4em;
+  text-align: center;
+}
+
+/*menú de hamburguesa*/
+body > nav > ul > li:first-of-type > label {
+  margin-top: 0.15em;
+  display: inline-block;
+  font-size: 1.4em;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 1s;
+}
+
+
+
+body > nav > ul > li a {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
+    margin-left: 0.5em;
+  }
+
+body > nav > ul > li a:hover {
+  background-color: #DCBC85;
+}
+
+#ckbMenu {
+  display: none;
+}
+
+#ckbMenu:checked + ul {
+  max-height: 19em;
+}
+
+/********** FOOTER **********/
+footer {
+  margin-top: 3em;
+  border-top: 1px solid #DCBC85;
+  text-align: center;
+  padding: 0.5em;
+  font-size: 14px;
+  background-color: #f7f6f6;
+}
+body > footer > a {
+  text-decoration: none;
+}
+body > footer > a:hover {
+  color: #ffa200;
+}
+
+/***************TARJETAS*****************/
+
+body > section {
+  padding: 0.5em 3.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+body > h2 {
+    padding: .5em;
+    margin-top: 0;
+    border-bottom: 3px solid #DCBC85;
+  }
+
+body > section > h2 {
+    padding: 0.5em;
+    margin-top: 0;
+    border-bottom: 3px solid #DCBC85;
+  }
+
+body > section > article {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  
+}
+
+.a-box {
+  display: inline-block;
+  width: 280px;
+  text-align: center;
+  padding: 12px;
+}
+
+.img-container {
+  height: 230px;
+  width: 200px;
+  overflow: hidden;
+  border-radius: 0px 0px 20px 20px;
+  display: inline-block;
+}
+
+.img-container img {
+  height: 200px;
+  margin: 5px 0px 0px -45px;
+}
+
+
+.text-container {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  padding: 70px 20px 20px 20px;
+  border-radius: 20px;
+  background: #fff;
+  margin: -120px 0px 0px 0px;
+  line-height: 19px;
+  font-size: 14px;
+}
+
+.text-container h3 {
+  margin: 20px 0px 10px 0px;
+  font-size: 18px;
+}
+
+/***************** FORMULARIOS ******************/
+
+.formulario{
+    text-align: center;
+    padding: 1em;
+  }
+  
+  
+  form input[type="submit"],
+  form input[type="reset"],
+  button[type="submit"],
+  button[type="button"]{
+    border-radius: .5mm;
+    border: none;
+    background-color: #ffa200;
+    padding: 4px 4px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  form input[type="submit"]:hover,
+  form input[type="reset"]:hover,
+  button[type="submit"]:hover,
+  button[type="button"]:hover{
+    background: #F87E04;
+    cursor: pointer;
+  }
+  
+  .btn1{
+    border-radius: .5mm;
+    border: none;
+    background-color: #ffa200 ;
+    padding: 4px 4px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn1:hover{
+    background: #F87E04;
+    cursor: pointer;
+  }
+  
+    form div + div{
+       margin-top: 1em;
+    }
+  
+    #reg{
+      border-top: 1px solid #ffa200;
+      text-align: center;
+    }
+  
+  
+    
+    input:focus{
+      background-color: #e8e8e8;
+    }
+  
+    .contenedor:hover {
+      background-color: #e8e8e8;
+    }
+  
+  
+
+/********** MEDIA QUERIES **********/
+
+@media all and (min-width: 520px) {
+  body > header {
+    flex-direction: row;
+  }
+
+  body > nav > ul > li {
+    display: inline-block;
+  }
+
+  body > nav > ul > li:first-of-type {
+    display: none;
+  }
+}
+
+@media all and (min-width: 750px) {
+  body > section {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  body > section > article {
+    width: 35%;
+    margin: 1.75em;
+  }
+}
+
+
+
+/*
+@media all and (min-width: 900px) {
+  body > nav > ul > li > a {
+    text-align: center;
+  }
+
+  body > nav > ul > li > a > span:nth-of-type(2) {
+    display: inline-block;
+  }
+
+  body > section > article {
+    width: 5%;
+    margin: 1.5em;
+    justify-content: center;
+  }
+}
+*/
