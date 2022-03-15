@@ -1,0 +1,301 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans&family=PT+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Denk+One&family=Sora:wght@100;200;300&display=swap');
+* {
+  box-sizing: border-box;
+  font-family: "Sora", sans-serif;
+  color: #353535;
+}
+
+body {
+  min-width: 360px;
+  margin: auto;
+}
+
+
+.logo {
+  width: 70px;
+  display: flex;
+}
+
+body > header {
+  overflow: hidden;
+  padding: .85em;
+  padding-top: 0.7em;
+  padding-bottom: 0.5em;
+  display: flex;
+  position: relative;
+  /*text-align: center;*/
+}
+
+body > header > h1 {
+  font-family: 'Denk One', sans-serif;
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  flex-grow: 1;
+  padding: 0.8em 0 0 0.2em;
+  font-size: 20px;
+}
+
+.derecha {
+  width: 50px;
+  margin-top: .7em;
+  padding: 0.5em;
+  display: flex;
+  position: relative;
+}
+
+/********** BARRA DE NAVEGACIÓN **********/
+body > nav {
+  background-color: #ffa200;
+}
+
+body > nav > ul {
+  padding: 0;
+  list-style-type: none;
+  overflow: hidden;
+  transition: max-height 0.5s linear;
+  max-height: 2.4em;
+  text-align: center;
+  margin: 0;
+}
+
+/*menú de hamburguesa*/
+body > nav > ul > li:first-of-type > label {
+  margin-top: 0.15em;
+  display: inline-block;
+  font-size: 1.4em;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 1s;
+}
+
+
+
+body > nav > ul > li a {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
+    margin-left: 0.5em;
+  }
+
+body > nav > ul > li a:hover {
+  background-color: #DCBC85;
+}
+
+#ckbMenu {
+  display: none;
+}
+
+#ckbMenu:checked + ul {
+  max-height: 19em;
+}
+
+/********** FOOTER **********/
+footer {
+  margin-top: 3em;
+  border-top: 1px solid #DCBC85;
+  text-align: center;
+  padding: 0.5em;
+  font-size: 14px;
+  background-color: #f7f6f6;
+}
+body > footer > a {
+  text-decoration: none;
+}
+body > footer > a:hover {
+  color: #ffa200;
+}
+
+/********** ARTÍCULOS **********/
+
+body > h2 {
+  padding: .5em;
+  margin-top: 0;
+  border-bottom: 3px solid #DCBC85;
+}
+body > section > h2 {
+  padding: .5em;
+  margin-top: 0;
+  border-bottom: 3px solid #DCBC85;
+}
+
+
+body>section{
+    padding: .5em;
+}
+body > section > div{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+body > section > div > article{
+  border: 2px solid #fcfcfc;
+  box-shadow: 0 3px 6px rgba(34, 25, 25, 0.4);
+  padding: .5em;
+  margin: auto;
+  width: 100%;
+  transition: opacity .4s ease-in-out;
+}
+
+.imagen:hover {
+opacity: 0.6;
+transition: .7s ease;
+background-color: #ffa200;
+}
+
+
+body>section>div>article>div> a > img{ 
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    padding: .5em;
+}
+
+body>section>div>article >div> a >div{
+    padding: .5em;
+}
+
+body>section>div>article>div>h4{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid #B0B0B0;
+}
+
+body > section > div > article > div > ul{
+  text-align: center;
+  list-style-type: none;
+  text-decoration: none;
+/*  margin: 0;*/
+  padding: 0;
+}
+body > section > div > article > div > ul > li{
+  display: inline-block;
+  padding: 0.4em 2em;
+}
+
+
+.decoration{
+  list-style-type: none;
+  text-decoration: none;
+}
+.decoration:hover{
+  color: #F87E04;
+}
+
+
+/***************** FORMULARIOS ******************/
+
+.formulario{
+    text-align: center;
+    padding: 1em;
+  }
+  
+  
+  form input[type="submit"],
+  form input[type="reset"],
+  button[type="submit"],
+  button[type="button"]{
+    border-radius: .5mm;
+    border: none;
+    background-color: #ffa200;
+    padding: 4px 4px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  form input[type="submit"]:hover,
+  form input[type="reset"]:hover,
+  button[type="submit"]:hover,
+  button[type="button"]:hover{
+    background: #F87E04;
+    cursor: pointer;
+  }
+  
+  .btn1{
+    border-radius: .5mm;
+    border: none;
+    background-color: #ffa200 ;
+    padding: 4px 4px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn1:hover{
+    background: #F87E04;
+    cursor: pointer;
+  }
+  
+    form div + div{
+       margin-top: 1em;
+    }
+  
+    #reg{
+      border-top: 1px solid #ffa200;
+      text-align: center;
+    }
+  
+  
+    
+    input:focus{
+      background-color: #e8e8e8;
+    }
+  
+    .contenedor:hover {
+      background-color: #e8e8e8;
+    }
+  
+  
+
+/********** MEDIA QUERIES **********/
+
+@media all and (min-width: 520px){
+
+  body > header{
+      flex-direction: row;
+  }
+
+      body > nav > ul > li {
+          display: inline-block;
+      }
+
+      body > nav > ul > li:first-of-type{
+          display: none;
+      }
+
+}
+
+@media all and (min-width: 750px){
+      body>section>div{
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+  }
+
+      body>section>div>article{
+          width: 45%;
+          margin: .5em;
+
+  }
+
+}
+
+
+
+@media all and (min-width: 1100px){
+
+  body>nav>ul>li>a{
+       text-align: center;
+  }
+
+      body>nav>ul>li>a>span:nth-of-type(2){
+          display: inline-block;
+      }
+
+body>section>div>article{
+  width: 30%;
+  margin: .5em;
+}
+
+}
