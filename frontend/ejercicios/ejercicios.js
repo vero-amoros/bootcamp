@@ -75,12 +75,12 @@ function Ejercicio5(dni) {
     letra = "TRWAGMYFPDXBNJZSQVHLCKE";
     letra = letra.substring(numero, numero + 1); //miro qué letra es en el string de letras
     if (letra != miletra) {
-      return "Dni erróneo, la letra no se corresponde";
+      return false;//"Dni erróneo, la letra no se corresponde";
     } else {
-      return "Dni correcto";
+      return true;//"Dni correcto";
     }
   } else {
-    return "Dni erróneo, formato no válido";
+    return false;//"Dni erróneo, formato no válido";
   }
 }
 
