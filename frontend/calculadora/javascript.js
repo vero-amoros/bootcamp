@@ -1,23 +1,24 @@
 class Calculadora {
-  constructor() {
+  constructor(pantalla) {
     this.inicializar();
+    this.limpiar.bind(this);
+    this.pantalla = pantalla;
   }
 
-  
   inicializar() {
     this.one = 0;
     this.two = 0;
     this.operador;
   }
 
+  actualiza() {
+    this.pantalla.value = this.one;
+  }
+
   limpiar() {
     this.one = 0;
     this.two = 0;
     this.actualiza();
-  }
-
-  actualiza() {
-    document.getElementById("pantallita").value = this.one;
   }
 
   ponNumero(numero) {
@@ -29,7 +30,7 @@ class Calculadora {
     this.actualiza();
   }
 
-  conComa() {
+  coma() {
     if (this.one == 0) {
       this.one = "0.";
     } else if (this.one.indexOf(".") == -1) {
@@ -40,13 +41,12 @@ class Calculadora {
 
   elige(eleccion) {
     if (this.one == 0) {
-        this.one = parseFloat(document.getElementById("pantallita").value);
-      }
-      this.two = parseFloat(this.one);
-      this.one = 0;
-      this.operador = eleccion;
+      this.one = parseFloat(this.pantalla.value);
+    }
+    this.two = parseFloat(this.one); 
+    this.one = 0;
+    this.operador = eleccion;
   }
-
 
   calculos() {
     this.one = parseFloat(this.one);
@@ -68,31 +68,5 @@ class Calculadora {
     this.two = parseFloat(this.one);
     this.one = 0;
   }
-
- 
 }
 
-const coma = document.getElementById("coma");
-const clear = document.getElementById("clear");
-const igual = document.getElementById("igual");
-const numeros = document.querySelectorAll("[data-numero]");
-const oper = document.querySelectorAll("[data-oper]");
-
-const calculadora = new Calculadora();
-
-coma.addEventListener("click", calculadora.conComa);
-clear.addEventListener("click", calculadora.limpiar);
-igual.addEventListener("click", calculadora.calculos);
-
-
-numeros.forEach((button) => {
-  button.addEventListener("click", () => {
-    calculadora.ponNumero(button.innerText);
-  });
-});
-
-oper.forEach((button) => {
-  button.addEventListener("click", () => {
-    calculadora.elige(button.value);
-  });
-});

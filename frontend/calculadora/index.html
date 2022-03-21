@@ -1,52 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="estilo.css" />
     <title>Calculadora</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="calculadora">
+      <input type="text" class="pantalla" id="pantallita" value="0" disabled />
 
-        <input type="text" class="pantalla" id="pantallita" value="0" disabled />
-        
-        <div class="numeros">
-          
-          <button data-oper type="button" id="suma" class="operador" value="+">+</button>
-          <button data-oper type="button" id="resta" class="operador" value="-">-</button>
-          <button data-oper type="button" id="multiplica" class="operador" value="*">&times;</button>
-          <button data-oper type="button" id="divide" class="operador" value="/">&divide;</button>
-      
-          <button data-numero type="button" id="siete" value="7">7</button>
-          <button data-numero type="button" id="ocho" value="8">8</button>
-          <button data-numero type="button" id="nueve" value="9">9</button>
-      
-      
-          <button data-numero type="button" id="cuatro" value="4">4</button>
-          <button data-numero type="button" id="cinco" value="5">5</button>
-          <button data-numero type="button" id="seis" value="6">6</button>
-      
-      
-          <button data-numero type="button" id="uno" value="1">1</button>
-          <button data-numero type="button" id="dos" value="2">2</button>
-          <button data-numero type="button" id="tres" value="3">3</button>
-      
-      
-          <button data-numero type="button" id="cero" value="0">0</button>
-          <button type="button" id="coma" class="decimal" value=".">.</button>
-          <button type="button" id="clear" class="clear" value="clear">C</button>
-      
-          <button type="button" id="igual" class="igual" value="=">=</button>
-      
-        </div>
+      <div class="numeros">
+        <button type="button" id="suma" class="operador" value="+">+</button>
+        <button type="button" id="resta" class="operador" value="-">-</button>
+        <button type="button" id="multiplica" class="operador" value="*">
+          &times;
+        </button>
+        <button type="button" id="divide" class="operador" value="/">
+          &divide;
+        </button>
+
+        <button data-numero type="button" id="siete" value="7">7</button>
+        <button data-numero type="button" id="ocho" value="8">8</button>
+        <button data-numero type="button" id="nueve" value="9">9</button>
+
+        <button data-numero type="button" id="cuatro" value="4">4</button>
+        <button data-numero type="button" id="cinco" value="5">5</button>
+        <button data-numero type="button" id="seis" value="6">6</button>
+
+        <button data-numero type="button" id="uno" value="1">1</button>
+        <button data-numero type="button" id="dos" value="2">2</button>
+        <button data-numero type="button" id="tres" value="3">3</button>
+
+        <button data-numero type="button" id="cero" value="0">0</button>
+        <button type="button" id="coma" class="decimal" value=".">.</button>
+        <button type="button" id="clear" class="clear" value="clear">C</button>
+
+        <button type="button" id="igual" class="igual" value="=">=</button>
       </div>
-      
+    </div>
+
     <script src="javascript.js"></script>
-</body>
+
+    <script>
+      const coma = document.getElementById("coma");
+      const clear = document.getElementById("clear");
+      const igual = document.getElementById("igual");
+      const numeros = document.querySelectorAll("[data-numero]");
+      const oper = document.querySelectorAll(".operador");
+
+      const calculadora = new Calculadora(
+        document.getElementById("pantallita")
+      );
+
+      coma.addEventListener("click", () => calculadora.coma());
+      clear.addEventListener("click", () => calculadora.limpiar());
+      igual.addEventListener("click", () => calculadora.calculos());
+
+      numeros.forEach((button) => {
+        button.addEventListener("click", () => {
+          calculadora.ponNumero(button.innerText);
+        });
+      });
+
+      oper.forEach((button) => {
+        button.addEventListener("click", () => {
+          calculadora.elige(button.value);
+        });
+      });
+      console.log(calculadora);
+    </script>
+  </body>
 </html>
-
-
-
