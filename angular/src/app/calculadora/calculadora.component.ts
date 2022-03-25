@@ -20,7 +20,6 @@ export class CalculadoraComponent implements OnInit {
 
   ponNumero(num: string) {
     this.one += parseFloat(num);
-    console.log('uno arriba' + this.one);
     const ultimo = this.operaciones[this.operaciones.length - 1];
 
     if (ultimo === '=') {
@@ -35,7 +34,6 @@ export class CalculadoraComponent implements OnInit {
     if (this.operaciones != '') {
       const ultimo = this.operaciones[this.operaciones.length - 1];
 
-      //Que no se puedan poner dos operadores seguidos
       if (
         ultimo === '/' ||
         ultimo === '*' ||
@@ -56,41 +54,22 @@ export class CalculadoraComponent implements OnInit {
       this.one = parseFloat(this.operaciones);
     }
     this.two = this.one;
-    this.one = 0; //
+    this.one = 0;
     this.eleccion = oper;
-    console.log('eleccion ' + this.eleccion);
 
     const ultimo = this.operaciones[this.operaciones.length - 1];
 
     if (ultimo === '=') this.operaciones = this.resultado;
 
-    //Que no se puedan poner dos operadores seguidos
     if (ultimo === '/' || ultimo === '*' || ultimo === '-' || ultimo === '+') {
       return;
     }
 
     this.operaciones = this.operaciones + oper;
-    //  this.calcAnswer();
-  }
-  getLastOperand() {
-    //cambiar
-    let pos: number;
-    console.log(this.operaciones);
-    pos = this.operaciones.toString().lastIndexOf('+');
-    if (this.operaciones.toString().lastIndexOf('-') > pos)
-      pos = this.operaciones.lastIndexOf('-');
-    if (this.operaciones.toString().lastIndexOf('*') > pos)
-      pos = this.operaciones.lastIndexOf('*');
-    if (this.operaciones.toString().lastIndexOf('/') > pos)
-      pos = this.operaciones.lastIndexOf('/');
-    console.log('Last ' + this.operaciones.substr(pos + 1));
-    return this.operaciones.substring(pos + 1);
   }
 
   calculos() {
     this.separa();
-
-    console.log('one ' + this.one + 'two ' + this.two);
     switch (this.eleccion) {
       case '+':
         this.resu = this.one + this.two;
@@ -105,8 +84,11 @@ export class CalculadoraComponent implements OnInit {
         this.resu = this.one / this.two;
         break;
     }
-    this.resultado = this.resu.toString();
-    console.log('resultados ' + this.resu + ' ' + this.resultado);
+    if (this.two === -1) {
+      this.resultado = this.one.toString();
+    } else {
+      this.resultado = this.resu.toFixed(2).toString();
+    }
 
     this.two = this.one;
     this.one = parseFloat(this.resultado);
@@ -114,12 +96,31 @@ export class CalculadoraComponent implements OnInit {
 
   separa() {
     var MyArray = this.operaciones.split(this.eleccion);
-    this.one = parseFloat(MyArray[0]);
-    this.two = parseFloat(MyArray[1]);
+
+    if (
+      this.operaciones.includes('+') ||
+      this.operaciones.includes('-') ||
+      this.operaciones.includes('*') ||
+      this.operaciones.includes('/')
+    ) {
+      this.one = parseFloat(MyArray[0]);
+      this.two = parseFloat(MyArray[1]);
+    } else {
+      console.log('entroooo');
+
+      this.one = parseFloat(this.operaciones);
+      this.two = -1;
+    }
   }
   dameResultado() {
     this.calculos();
-    this.operaciones = this.operaciones + '=';
+    const ultimo = this.operaciones[this.operaciones.length - 1];
+
+    if (ultimo === '=') {
+      return;
+    } else {
+      this.operaciones = this.operaciones + '=';
+    }
     if (this.operaciones == '0') this.operaciones = '';
   }
   limpiar() {
