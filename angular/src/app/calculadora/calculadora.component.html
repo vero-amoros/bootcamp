@@ -1,1 +1,42 @@
-<p>calculadora works!</p>
+
+<div class="container-fluid">
+    <header>
+      <h1>Calculadora</h1>
+    </header>
+    <div class="calculadora">
+      <!-- lo que mete el usuario -->
+      <div class="pantalla" id="pantallita" value="0" type="text">{{operaciones}}</div>
+
+      <!-- el resultado -->
+      <div class="pantalla" type="text">{{resultado}}</div>
+
+      <div class="numeros">
+        <button type="button" id="suma" class="operador" value="+" (click)="ponOper('+')">+</button>
+        <button type="button" id="resta" class="operador" value="-"(click)="ponOper('-')">-</button>
+        <button type="button" id="multiplica" class="operador" value="*" (click)="ponOper('*')">
+          &times;
+        </button>
+        <button type="button" id="divide" class="operador" value="/" (click)="ponOper('/')">
+          &divide;
+        </button>
+
+        <button data-numero type="button" id="siete" value="7" (click)="ponNumero('7')">7</button>
+        <button data-numero type="button" id="ocho" value="8" (click)="ponNumero('8')">8</button>
+        <button data-numero type="button" id="nueve" value="9" (click)="ponNumero('9')">9</button>
+
+        <button data-numero type="button" id="cuatro" value="4" (click)="ponNumero('4')">4</button>
+        <button data-numero type="button" id="cinco" value="5" (click)="ponNumero('5')">5</button>
+        <button data-numero type="button" id="seis" value="6" (click)="ponNumero('6')">6</button>
+
+        <button data-numero type="button" id="uno" value="1" (click)="ponNumero('1')">1</button>
+        <button data-numero type="button" id="dos" value="2" (click)="ponNumero('2')">2</button>
+        <button data-numero type="button" id="tres" value="3" (click)="ponNumero('3')">3</button>
+
+        <button data-numero type="button" id="cero" value="0" (click)="ponNumero('0')">0</button>
+        <button type="button" id="coma" class="decimal" value="." (click)="coma()">.</button>
+        <button type="button" id="clear" class="clear" value="clear" (click)="limpiar()">C</button>
+
+        <button type="button" id="igual" class="igual" value="=" (click)="dameResultado()">=</button>
+      </div>
+    </div>
+  </div>
